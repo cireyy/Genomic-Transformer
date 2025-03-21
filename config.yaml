@@ -1,0 +1,20 @@
+# config.yaml
+
+# Data paths
+data_dir: "data/processed"         
+label_path: "data/labels.npy"       
+family_history_path: "data/family_history.npy"
+
+
+# Training settings
+batch_size: 64
+learning_rate: 0.001
+num_epochs: 100
+best_model_path: "checkpoints/best_model.pt"
+
+# Early stopping
+patience: 10
+
+# Logging and output
+log_dir: "logs/"
+save_every: 1
