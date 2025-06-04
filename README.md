@@ -18,15 +18,45 @@ This study is based on genomic data from the **UK Biobank (UKBB)**, a large-scal
 
 ## Data Format
 
-The dataset consists of:
+The repository includes simulated (dummy) example data to demonstrate the input structure required by the MetaGeno framework. These files mimic genomic data but do not contain identifiable information. Below is a description of the expected format for each input:
 
-- **SNP Data: Synthetic SNP values per chromosome
-- **Labels: Dummy binary disease indicators (6 diseases)
-- **Family History: Dummy binary family history for each disease
+- `data/processed/labels.npy`  
+  A NumPy array of shape `(N,)`, where `N` is the number of samples. Each value is a binary label indicating whether the individual had ischemic stroke (0 = control, 1 = case).
 
-## How to Run
+- `data/processed/family_history.npy`  
+  A NumPy array of shape `(N, 6)`, where each column represents a binary indicator (0 or 1) for family history of six common diseases, corresponding to:
+  1. Atrial Fibrillation (AF)
+  2. Hypertension (HT)
+  3. Hypercholesterolemia (HCL)
+  4. Type 2 Diabetes (T2D)
+  5. Coronary Artery Disease (CAD)
+  6. Ischemic Stroke (IS)
 
-### Dependencies
+- `data/processed/chr{i}.npy` (e.g., `chr1.npy`, `chr2.npy`, ..., `chr22.npy`)  
+  For each chromosome `i`, a NumPy array of shape `(N, S_i)`, where `S_i` is the number of selected SNPs on chromosome `i`. Each row represents the genotype of one individual, encoded as 0, 1, or 2 (zygosity).
+
+> All files should be placed in `data/processed/`, and paths should be configured in `config.yaml`.
+
+## Data Preprocessing
+
+The SNP features used in MetaGeno are selected based on known risk loci identified by genome-wide association studies (GWAS). To construct the input feature space:
+
+1. We first obtained summary statistics from high-quality GWAS for IS and five related metabolic risk factors.
+2. Significant SNPs were extracted from each GWAS result, and overlapping SNPs across traits were retained.
+3. For each selected SNP, genotype dosages were extracted from VCF-like matrices and encoded as integer values (0, 1, 2).
+
+The following GWAS datasets from the PGS Catalog (https://www.pgscatalog.org/) were used to select SNPs:
+
+- **Ischemic Stroke (IS):** PGS000665  
+- **Atrial Fibrillation (AF):** PGS000035  
+- **Coronary Artery Disease (CAD):** PGS002262  
+- **Hypertension (HT):** PGS003012  
+- **Hypercholesterolemia (HCL):** PGS002274  
+- **Type 2 Diabetes (T2D):** PGS003107
+
+> The current repository includes only simulated data with the same structure as described above. Users may replace these with real genotype matrices and summary statistics according to their own data access.
+
+## Dependencies
 
 To run the MetaGeno framework, the following dependencies are required:
 
@@ -65,10 +95,6 @@ pip install -r requirements.txt
 python main.py --config config.yaml
 ```
 
-## Notes
-
-- **The dataset provided here is synthetic and does not represent real biological data.**
-- The original data used in this study is from **UK Biobank (UKBB)**.
 
 
 
