@@ -24,7 +24,7 @@ The repository includes simulated (dummy) example data to demonstrate the input 
   A NumPy array of shape `(N,)`, where `N` is the number of samples. Each value is a binary label indicating whether the individual had ischemic stroke (0 = control, 1 = case).
 
 - `data/processed/family_history.npy`  
-  A NumPy array of shape `(N, 6)`, where each column represents a binary indicator (0 or 1) for family history of six common diseases, corresponding to:
+  A NumPy array of shape `(N, 6)`, where each column represents a binary indicator (0 or 1) for family history of six modifiable risk factor (MRFs), corresponding to:
   1. Atrial Fibrillation (AF)
   2. Hypertension (HT)
   3. Hypercholesterolemia (HCL)
@@ -94,6 +94,75 @@ pip install -r requirements.txt
 ```bash
 python main.py --config config.yaml
 ```
+
+This will:
+- Load SNP and family history features from the paths in `config.yaml`
+- Train the MetaGeno Transformer model on IS and 5 related traits
+- Save the best model to `checkpoints/best_model.pt`
+
+## Run Inference (Using a Trained Model)
+
+The `predict.py` script allows you to use a pre-trained MetaGeno model to generate ischemic stroke risk predictions on new data.
+
+### 1. Prepare Input Data
+
+Ensure your data is organized in the following structure under the path specified by `data_dir` in `config.yaml` (default: `data/processed/`):
+
+```
+data/processed/
+├── chr1.npy
+├── chr2.npy
+├── ...
+├── chr22.npy
+└── family_history.npy         # optional binary features (N, 6)
+```
+
+Each `.npy` file must:
+- Have shape `(N, S)` where `N` is number of individuals and `S` is number of SNPs for that chromosome
+- Encode SNPs using integers: `0`, `1`, or `2`
+  
+---
+
+### 2. Set Up `config.yaml`
+
+Ensure your `config.yaml` includes correct paths to your prediction data:
+
+```yaml
+data_dir: "data/processed"
+family_history_path: "data/processed/family_history.npy"
+best_model_path: "checkpoints/best_model.pt"
+```
+
+---
+
+### 3. Run Prediction
+
+Run the following command from the project root:
+
+```bash
+python predict.py --config config.yaml
+```
+
+This will:
+- Load your trained MetaGeno model
+- Process genomic and family history features
+- Generate predictions for all samples
+- Save output to `logs/predictions.npy`
+
+---
+
+### 4. Output Format
+
+The output file is a NumPy array of shape `(N, 6)` and saved as:
+
+```
+logs/predictions.npy
+```
+
+Each row represents one individual, and columns correspond to model-predicted risk scores for each MRFs.
+
+> The final column corresponds to IS risk. You may extract this for downstream clinical or research applications.
+
 
 
 
