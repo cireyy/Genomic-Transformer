@@ -87,7 +87,7 @@ You can install all required packages using:
 
 ```bash
 pip install -r requirements.txt
-
+```
 
 ### Train the Model
 
