@@ -16,12 +16,6 @@ Among various sequential models tested, the Transformer demonstrated superior pe
 
 This study is based on genomic data from the **UK Biobank (UKBB)**, a large-scale biomedical database containing genetic and health information from over 500,000 participants. To access the original UKBB dataset, researchers must submit an application through the UK Biobank portal: [🔗 UK Biobank Access Application](https://www.ukbiobank.ac.uk/enable-your-research/apply-for-access)
 
-## Installation
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Data Format
 
 The dataset consists of:
@@ -31,6 +25,39 @@ The dataset consists of:
 - **Family History: Dummy binary family history for each disease
 
 ## How to Run
+
+### Dependencies
+
+To run the MetaGeno framework, the following dependencies are required:
+
+- **Python 3.8+**  
+  We recommend using a virtual environment (e.g., `venv` or `conda`).
+
+- **PyTorch >= 1.10**  
+  [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)  
+  Please install the CUDA-compatible version if using GPU.
+
+- **NumPy** (>=1.21)
+
+- **Pandas**
+
+- **scikit-learn** (>=0.24)
+
+- **PyYAML**  
+  Used for reading configuration files.
+
+Optional:
+
+- **matplotlib / seaborn**  
+  For generating plots during evaluation and risk stratification.
+
+---
+
+You can install all required packages using:
+
+```bash
+pip install -r requirements.txt
+
 
 ### Train the Model
 
