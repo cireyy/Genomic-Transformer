@@ -41,8 +41,9 @@ def predict():
     predictions = []
 
     with torch.no_grad():
-        for x, _ in dataloader:
-            output = model(x)
+       for batch in dataloader:
+            x, family_history = batch
+            output = model(x, family_history)
             predictions.append(output.cpu().numpy())
 
     predictions = np.concatenate(predictions, axis=0)
