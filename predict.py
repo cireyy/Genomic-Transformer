@@ -4,6 +4,9 @@ import numpy as np
 import yaml
 from src.dataset import GenomicDataset
 from src.transformer_model import MetaGenoTransformer
+import os
+import pandas as pd
+
 
 def load_config(config_path):
     with open(config_path, 'r') as f:
@@ -19,7 +22,7 @@ def predict():
     # Load dataset
     dataset = GenomicDataset(
         data_dir="data/processed",
-        label_path="data/processed/labels.npy",  # still required by constructor but won't be loaded
+        label_path="data/processed/labels.npy",
         family_history_path="data/processed/family_history.npy",
         predict=True
     )
@@ -47,10 +50,22 @@ def predict():
             predictions.append(output.cpu().numpy())
 
     predictions = np.concatenate(predictions, axis=0)
-    
-    os.makedirs("logs", exist_ok=True)
-    np.save("logs/predictions.npy", predictions)
-    print("Predictions saved to logs/predictions.npy")
+
+    family_history_path = "data/processed/family_history.csv"
+    sample_ids = pd.read_csv(family_history_path).iloc[:, 0].values
+
+    log_dir = config.get("log_dir", "logs")
+    os.makedirs(log_dir, exist_ok=True)
+
+    # Save .npy
+    np.save(os.path.join(log_dir, "predictions.npy"), predictions)
+    print(f"Predictions saved to {log_dir}/predictions.npy")
+
+    # Save .csv
+    df = pd.DataFrame(predictions, columns=["AF", "HT", "HCL", "T2D", "CAD", "IS"])
+    df.insert(0, "Sample_ID", sample_ids)
+    df.to_csv(os.path.join(log_dir, "predictions.csv"), index=False)
+    print(f"Predictions saved to {log_dir}/predictions.csv")
 
 if __name__ == '__main__':
     predict()
