@@ -24,9 +24,10 @@ def main():
 
     # Load dataset
     dataset = GenomicDataset(
-        data_dir=config['data_dir'],
-        label_path=config['label_path'],
-        family_history_path=config.get('family_history_path', None)
+        data_dir="data/processed",
+        label_path="data/processed/labels.npy",  # still required by constructor but won't be loaded
+        family_history_path="data/processed/family_history.npy",
+        predict=True
     )
 
     # Initialize model
