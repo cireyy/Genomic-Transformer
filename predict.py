@@ -47,7 +47,8 @@ def predict():
        for batch in dataloader:
             x, family_history = batch
             output = model(x, family_history)
-            predictions.append(output.cpu().numpy())
+            probs = torch.sigmoid(output) 
+            predictions.append(probs.cpu().numpy())
 
     predictions = np.concatenate(predictions, axis=0)
 
