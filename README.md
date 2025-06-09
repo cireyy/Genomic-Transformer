@@ -21,7 +21,7 @@ This study is based on genomic data from the **UK Biobank (UKBB)**, a large-scal
 The repository includes simulated (dummy) example data to demonstrate the input structure required by the MetaGeno framework. These files mimic genomic data but do not contain identifiable information. Below is a description of the expected format for each input:
 
 - `data/processed/labels.npy`  
-  A NumPy array of shape `(N,)`, where `N` is the number of samples. Each value is a binary label indicating whether the individual had ischemic stroke (0 = control, 1 = case).
+  A NumPy array of shape (N, 6), where each column corresponds to a binary label (0 = control, 1 = case) for one of the six target diseases (AF, HT, HCL, T2D, CAD, IS), in that order.
 
 - `data/processed/family_history.npy`  
   A NumPy array of shape `(N, 6)`, where each column represents a binary indicator (0 or 1) for family history of six modifiable risk factor (MRFs), corresponding to:
