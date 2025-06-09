@@ -27,7 +27,7 @@ def main():
         data_dir="data/processed",
         label_path="data/processed/labels.npy",  # still required by constructor but won't be loaded
         family_history_path="data/processed/family_history.npy",
-        predict=True
+        predict=False
     )
 
     # Initialize model
