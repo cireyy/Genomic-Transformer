@@ -47,6 +47,8 @@ def predict():
             predictions.append(output.cpu().numpy())
 
     predictions = np.concatenate(predictions, axis=0)
+    
+    os.makedirs("logs", exist_ok=True)
     np.save("logs/predictions.npy", predictions)
     print("Predictions saved to logs/predictions.npy")
 
