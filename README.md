@@ -153,15 +153,16 @@ This will:
 
 ### 4. Output Format
 
-The output file is a NumPy array of shape `(N, 6)` and saved as:
+An example output file is provided in logs/predictions_example.csv, which contains model predictions for each individual. The array has shape (N, 6), where:
+
+Each row represents one individual, and columns correspond to model-predicted risk scores for each MRF.
+
+> The prediction is saved as:
 
 ```
 logs/predictions.npy
 ```
-
-Each row represents one individual, and columns correspond to model-predicted risk scores for each MRFs.
-
-> The final column corresponds to IS risk. You may extract this for downstream clinical or research applications.
+You may extract this for downstream clinical or research applications.
 
 
 
