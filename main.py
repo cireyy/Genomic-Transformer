@@ -25,7 +25,7 @@ def main():
     # Load dataset
     dataset = GenomicDataset(
         data_dir="data/processed",
-        label_path="data/processed/labels.npy",  # still required by constructor but won't be loaded
+        label_path="data/processed/labels.npy", 
         family_history_path="data/processed/family_history.npy",
         predict=False
     )
